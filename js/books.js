@@ -11,15 +11,9 @@ $(document).ready(function() {
                     type: "POST",
                     url: "login.php",
                     data: $('#loginForm').serialize(),
-                    error: function(data) {
-                        console.log(data);
-                        $('#loginScreen').addClass('border-danger');
-                        $('#loginWrong').addClass('alert-danger');
-                        $('#loginWrong').text('Something went wrong!');
-                        $('#loginWrong').fadeIn();
-                    },
+
                     success: function(data) {
-                        console.log(data);
+                        //alert(data);
                         if (data == "0") {
                             $("#userName").val('');
                             $("#passWord").val('');
@@ -30,7 +24,15 @@ $(document).ready(function() {
                         } else {
                             window.location.replace('index.php');
                         }
-                    }
+                    },
+
+                    error: function(data) {
+                        //alert(data);
+                        $('#loginScreen').addClass('border-danger');
+                        $('#loginWrong').addClass('alert-danger');
+                        $('#loginWrong').text('Something went wrong!');
+                        $('#loginWrong').fadeIn();
+                    },
                 })
             }
         }
