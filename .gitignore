@@ -1,2 +1,2 @@
-config/*
-.DS_Storeconfig/db.php
+config/db.php
+.DS_Store

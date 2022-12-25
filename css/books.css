@@ -1,3 +1,5 @@
-#loginWrong {
+#loginWrong,
+#showResult,
+#showResultData {
     display: none;
 }

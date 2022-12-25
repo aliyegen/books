@@ -22,7 +22,7 @@ $(document).ready(function() {
                             $('#loginWrong').text('Wrong password or user not found!');
                             $('#loginWrong').fadeIn();
                         } else {
-                            window.location.replace('index.php');
+                            window.location.replace('dashboard.php');
                         }
                     },
 
@@ -35,13 +35,28 @@ $(document).ready(function() {
                     },
                 })
             }
-        }
+        },
+
+        search: function() {
+            var searchText = $('#seachText').val();
+            if (searchText != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "search.php",
+                    data: $('#seachForm').serialize(),
+
+                    success: function(data) {
+                        alert(data);
+                        $('#showResult').fadeIn();
+                        $('#showResultData').fadeIn();
+                        $('#showResultData').html(data);
+                    },
+                    error: function(data) {
+                        alert("Error");
+                    }
+
+                })
+            }
+        },
     }
 })
-
-//Enter press to post login form
-$(document).on('keypress', function(e) {
-    if (e.which == 13) {
-        $.user.login();
-    }
-});
