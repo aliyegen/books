@@ -33,7 +33,7 @@
                         </div>
                         <div class="col">
                             <div class="card m-1 p-1 text-center">
-                                Book Code
+                                OLID
                             </div>
                         </div>
                         <div class="col">
