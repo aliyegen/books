@@ -2,10 +2,7 @@
     class user{
         public $userID;
         public $userName;
-        public $name;
-        public $surName;
-        public $passW;
-        public $RGTime;
+        private $passW;
 
         public function __construct()
         {
@@ -37,12 +34,12 @@
         public function login($userName, $passW){
             $userName = $this->codeclear($userName);
             $passW = $this ->codeclear($passW);
-            $passW = md5($passW);
+            $passW = md5($passW); //password md5 encrypting
             
-            require("config/db.php");
+            require("config/db.php");//connect db
 
-            //prepare method is for block SQL injections 
-            $query = $db->prepare("SELECT userID, userName, name, surName, registerTime 
+            //prepare method is using for block SQL injections 
+            $query = $db->prepare("SELECT userID, userName
             FROM users 
             WHERE userName = ? and passW = ?");
 
@@ -56,16 +53,10 @@
                 foreach ($users as $u){
                     $this->userID = $u->userID;
                     $this->userName = $u->userName;
-                    //$this->name = $u->name;
-                    //$this->surName = $u->surName;
-                    //$this->RGTime -> $u->registerTime;
                 }
                 $_SESSION['userID'] = $this->userID;
                 $_SESSION['userName'] = $this->userName;
-                //$_SESSION['name'] = $this->name;
-                
 
-            
                 echo "1"; //login success code for redirect to dashboard
             }
             else{
@@ -75,8 +66,7 @@
 
         }
 
-        
-
+        //check session
         public function isSession(){
             if(!isset($_SESSION['userName']) && !isset($_SESSION['userID'])){
                 $this->logout();

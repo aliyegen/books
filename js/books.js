@@ -36,17 +36,18 @@ $(document).ready(function() {
                 })
             }
         },
-
+    }
+    $.book = {
         search: function() {
             var searchText = $('#seachText').val();
             if (searchText != "") {
                 $.ajax({
                     type: "POST",
                     url: "search.php",
-                    data: $('#seachForm').serialize(),
+                    data: { seachText: searchText },
 
                     success: function(data) {
-                        alert(data);
+                        //alert(data);
                         $('#showResult').fadeIn();
                         $('#showResultData').fadeIn();
                         $('#showResultData').html(data);
@@ -58,5 +59,11 @@ $(document).ready(function() {
                 })
             }
         },
+
+        detail: function(bookCode) {
+            window.location.href = "bookDetail.php?bookCode=" + bookCode;
+        },
     }
+
+
 })

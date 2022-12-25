@@ -1,35 +1,30 @@
 <?php
-    error_reporting(0);
+    error_reporting(0);//php display errors turn off
     require("user.php"); 
-  
     $u = new user();
     $u->isSession();
-
-    $seachMethod = $_POST['searchMethodSelect'];
+    //search data
     $seachText = $_POST['seachText'];
-    $seachText = str_replace(' ', '+', $seachText);
+    $seachText = str_replace(' ', '+', $seachText); //replace space characters to "+"
 
-    $ch = curl_init();
-
-    //curl_setopt($ch, CURLOPT_URL, "https://openlibrary.org/search/authors.json?q=$seachText");
-
-    curl_setopt($ch, CURLOPT_URL, "https://openlibrary.org/search.json?q=$seachText");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
+    //send request
+    $c = curl_init();
+    curl_setopt($c, CURLOPT_URL, "https://openlibrary.org/search.json?q=$seachText");
+    curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
     $headers = array();
-    //$headers[] = "X-Authentication-Token: $apiKey";
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($c, CURLOPT_HTTPHEADER, $headers);
 
-    // Execute the request and parse the response
-    $response = curl_exec($ch);
+    //execute the request and parse the response
+    $response = curl_exec($c);
     $result = json_decode($response, true);
 
-    $html = "";
-    $i = 1;
-    
+    $html = ""; //for html code export
+    $i = 1; //index number
     foreach ($result['docs'] as $doc) {
-        $cols = array($i,$doc['title'],$doc['author_name'][0],$doc['publisher'][0],$doc['publish_year'][0]);
-        $html .= '<div class="row">';
+        //define required cols from response
+        $cols = array($i, $doc['seed'][0], $doc['title'],$doc['author_name'][0],$doc['publisher'][0],$doc['publish_year'][0]);
+        $cols[1] = str_replace('/books/', '', trim($cols[1]));//remove /books/ from data
+        $html .= '<div class="row dataRow" onclick="$.book.detail('.'\''.$cols[1].'\''.')">';
         foreach($cols as $col){
             $html .= '
             <div class="col">
